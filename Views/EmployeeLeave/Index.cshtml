@@ -1,0 +1,51 @@
+﻿@model Labb_1.Models.EmployeeLeaveViewModel
+
+<div class="row">
+    <div class="col-md-3">
+        <ul>
+            @foreach (var employee in Model.Employees)
+            {
+                <li>
+                    <a asp-action="Index" asp-route-employeeid="@employee.EmployeeId">@employee.EmployeeName</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table class="table">
+            <thead>
+            </thead>
+            <tbody>
+                <div class="leave-message">
+                    @if (!string.IsNullOrEmpty(Model.SelectedEmployee))
+                    {
+                        <h2>@Model.SelectedEmployee's Leave History</h2>
+                    }
+                    else
+                    {
+                        <h2>Vänligen klicka på en anställd för att se deras ledighet.</h2>
+                    }
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.SelectedEmployee))
+                {
+                    <tr>
+                        <th>Leave Type</th>
+                        <th>Date</th>
+                        <th>Total Days</th>
+                    </tr>
+                    @foreach (var leave in Model.LeaveHistory)
+                    {
+                        <tr>
+                            <td>@leave.LeaveType</td>
+                            <td>@leave.StartDate.ToString("yyyy-MM-dd") - @leave.EndDate.ToString("yyyy-MM-dd")</td>
+                            <td>@((leave.EndDate - leave.StartDate).TotalDays)</td>
+                        </tr>
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
